@@ -26,6 +26,7 @@ public class User {
 
     public User() {
         this.id = UUID.randomUUID().toString();
+        status=Status.ONLINE;
     }
 
 }
