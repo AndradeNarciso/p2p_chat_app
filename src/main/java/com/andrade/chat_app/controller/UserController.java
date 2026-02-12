@@ -2,6 +2,8 @@ package com.andrade.chat_app.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -34,9 +36,9 @@ public class UserController {
         return userService.disconnectUserService(user);
     }
 
-    @GetMapping("/user/all")
-    public List<User> getAll() {
-        return userService.findConnectedUser();
+    @GetMapping("/users")
+    public ResponseEntity<List<User> > getAll() {
+        return new ResponseEntity<>(userService.findConnectedUser(), HttpStatus.OK);
     }
 
 }
