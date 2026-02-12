@@ -12,11 +12,11 @@ import com.andrade.chat_app.enums.Status;
 import com.andrade.chat_app.exception.QueryException;
 import com.andrade.chat_app.repository.UserRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class UserService {
 

@@ -16,10 +16,11 @@ import com.andrade.chat_app.dto.UserRequest;
 import com.andrade.chat_app.service.UserService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User> > getAll() {
+    public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(userService.findConnectedUser(), HttpStatus.OK);
     }
 
