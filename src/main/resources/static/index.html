@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chat App</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+
+<div class="app">
+
+    <!-- LOGIN -->
+    <div id="loginScreen" class="card">
+        <h2>Welcome</h2>
+        <p>Log in to start chatting</p>
+
+        <input type="text" id="nickname" placeholder="Nickname">
+        <input type="text" id="fullname" placeholder="Full Name">
+
+        <button onclick="enterChat()">Enter</button>
+    </div>
+
+    <!-- USERS -->
+    <div id="usersScreen" class="card hidden">
+        <div class="header">
+            <h2>Online Users</h2>
+            <button class="small-btn" onclick="logout()">Logout</button>
+        </div>
+        <div id="userList" class="user-list"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatScreen" class="card hidden">
+        <div class="header">
+            <h2 id="chatWith"></h2>
+            <button class="small-btn" onclick="leaveChat()">Back</button>
+        </div>
+
+        <div class="chat-box" id="chatBox"></div>
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
 </body>
 </html>
