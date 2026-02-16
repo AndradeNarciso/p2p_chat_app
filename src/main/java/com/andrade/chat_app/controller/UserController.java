@@ -26,16 +26,8 @@ public class UserController {
     private final UserService userService;
 
     @MessageMapping("/user/connect")
-    @SendTo("/user/topic")
+    @SendTo("/topic/users")
     public User saveUserController(@Valid @Payload UserRequest user) {
-
-        System.out.println("=====================================");
-        System.out.println(">>> REQUISIÇÃO CHEGOU NO BACKEND !!!");
-        System.out.println(">>> /app/user/connect foi chamado agora");
-        System.out.println(">>> FullName recebido: " + user.fullName());
-        System.out.println(">>> NickName recebido: " + user.nickName());
-        System.out.println("=====================================");
-
         return userService.saveUserService(user);
     }
 

@@ -22,7 +22,7 @@ function connection(Event) {
         alert("Please fill in all fields.");
         return;
     }
-    
+
 
     const socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
@@ -31,7 +31,7 @@ function connection(Event) {
 
     Event.preventDefault();
 
-   
+
 
 
 }
@@ -39,20 +39,13 @@ function connection(Event) {
 
 function onConnected() {
 
-    console.log("=====================================");
-    console.log(">>> CONEXÃO WEBSOCKET ESTABELECIDA");
-    console.log(">>> Usuário tentando conectar:");
-    console.log("Nickname:", nickname);
-    console.log("FullName:", fullname);
-    console.log("=====================================");
-
     stompClient.subscribe(`/user/${fullname}/queue/message`, onMessageReceived);
-    stompClient.subscribe('/user/topic', onMessageReceived);
+    stompClient.subscribe('/topic/users', onMessageReceived);
     stompClient.send('/app/user/connect', {}, JSON.stringify({
         nickName: nickname,
         fullName: fullname
     }))
- 
+
 }
 
 
@@ -90,11 +83,11 @@ function loadUsers() {
     list.innerHTML = "";
 
     onlineUsers.forEach(user => {
-        // user é um objeto { fullName, nickName }
+
         const div = document.createElement("div");
         div.className = "user";
-        div.innerText = user.fullName; // mostra o nome completo
-        div.onclick = () => openChat(user.fullName); // passa o nome completo
+        div.innerText = user.fullName;
+        div.onclick = () => openChat(user.fullName);
         list.appendChild(div);
     });
 }

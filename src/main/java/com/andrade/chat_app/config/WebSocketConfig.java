@@ -20,7 +20,7 @@
 
         @Override
         public void configureMessageBroker(MessageBrokerRegistry registry) {
-            registry.enableSimpleBroker("/user");
+            registry.enableSimpleBroker("/topic","/queue");
             registry.setApplicationDestinationPrefixes("/app");
             registry.setUserDestinationPrefix("/user");
         }
