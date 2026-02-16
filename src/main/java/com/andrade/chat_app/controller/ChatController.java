@@ -15,6 +15,7 @@ import com.andrade.chat_app.dto.ChatMessageRequest;
 import com.andrade.chat_app.service.ChatMessageService;
 import com.andrade.chat_app.util.ChatNotification;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -25,7 +26,7 @@ public class ChatController {
     private final ChatMessageService chatMessageService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessageRequest chatMessageRequest) {
+    public void processMessage(@Valid @Payload ChatMessageRequest chatMessageRequest) {
         ChatMessage chat = chatMessageService.saveChatMessage(chatMessageRequest);
         messageTemplate
                 .convertAndSendToUser(chatMessageRequest.recipientId(), "queue/message",

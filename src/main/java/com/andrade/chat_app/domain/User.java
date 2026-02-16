@@ -19,14 +19,14 @@ import lombok.Setter;
 @Document
 public class User {
     @Id
-    private String id;
-    private String nickName;
-    private String fullName;
-    private Status status;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
-    public User() {
-        this.id = UUID.randomUUID().toString();
-        status=Status.ONLINE;
-    }
+    private String nickName;
+
+    private String fullName;
+
+    @Builder.Default
+    private Status status = Status.ONLINE;
 
 }

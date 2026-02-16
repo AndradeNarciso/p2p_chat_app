@@ -1,37 +1,104 @@
+'use strict';
+
 let currentUser = "";
 let selectedUser = "";
+let stompClient = "";
 
-const onlineUsers = ["Maria", "Carlos", "Joana", "Pedro"];
+let nickname = "";
+let fullname = "";
 
-function enterChat() {
-    const nick = document.getElementById("nickname").value;
-    const name = document.getElementById("fullname").value;
+let onlineUsers = "";
 
-    if (!nick || !name) {
-        alert("Preencha todos os campos!");
+
+
+
+function connection(Event) {
+
+
+    nickname = document.getElementById("nickname").value;
+    fullname = document.getElementById("fullname").value;
+
+    if (!nickname || !fullname) {
+        alert("Please fill in all fields.");
         return;
     }
+    
 
-    currentUser = nick;
+    const socket = new SockJS("/ws");
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, onConnected, onError)
+
+    Event.preventDefault();
+
+   
+
+
+}
+
+
+function onConnected() {
+
+    console.log("=====================================");
+    console.log(">>> CONEXÃO WEBSOCKET ESTABELECIDA");
+    console.log(">>> Usuário tentando conectar:");
+    console.log("Nickname:", nickname);
+    console.log("FullName:", fullname);
+    console.log("=====================================");
+
+    stompClient.subscribe(`/user/${fullname}/queue/message`, onMessageReceived);
+    stompClient.subscribe('/user/topic', onMessageReceived);
+    stompClient.send('/app/user/connect', {}, JSON.stringify({
+        nickName: nickname,
+        fullName: fullname
+    }))
+ 
+}
+
+
+function onError(err) {
+    console.error("Erro de conexão STOMP:", err);
+    alert("Erro ao conectar ao servidor. Veja console.");
+}
+
+async function findConnectedUser() {
+    const connectedUser = await fetch('/users');
+    let connectUserList = await connectedUser.json();
+
+    connectUserList = connectUserList.filter(user => user.fullName !== fullname)
+    onlineUsers = connectUserList;
+    loadUsers();
+
+}
+
+function onMessageReceived(payload) {
+
+    const user = JSON.parse(payload.body);
+
+    console.log("User created:", user);
 
     showScreen("usersScreen");
-    loadUsers();
+
+    findConnectedUser();
 }
+
+
+
 
 function loadUsers() {
     const list = document.getElementById("userList");
     list.innerHTML = "";
 
     onlineUsers.forEach(user => {
-        if (user !== currentUser) {
-            const div = document.createElement("div");
-            div.className = "user";
-            div.innerText = user;
-            div.onclick = () => openChat(user);
-            list.appendChild(div);
-        }
+        // user é um objeto { fullName, nickName }
+        const div = document.createElement("div");
+        div.className = "user";
+        div.innerText = user.fullName; // mostra o nome completo
+        div.onclick = () => openChat(user.fullName); // passa o nome completo
+        list.appendChild(div);
     });
 }
+
 
 function openChat(user) {
     selectedUser = user;

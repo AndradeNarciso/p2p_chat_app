@@ -40,7 +40,7 @@ public class UserService {
             log.info("User already desconnected");
             return savedUser;
         }
-
+        
         savedUser.setStatus(Status.OFFLINE);
         return userRepository.save(savedUser);
 
