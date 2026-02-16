@@ -1,13 +1,12 @@
 'use strict';
 
-let currentUser = "";
-let selectedUser = "";
-let stompClient = "";
+let currentUser = null;
+let selectedUser = null;
+let stompClient = null;
+let nickname = null;
+let fullname = null;
 
-let nickname = "";
-let fullname = "";
-
-let onlineUsers = "";
+let onlineUsers = null;
 
 
 
@@ -26,6 +25,7 @@ function connection(Event) {
 
     const socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
+    stompClient.debug = null    
 
     stompClient.connect({}, onConnected, onError)
 
@@ -50,8 +50,8 @@ function onConnected() {
 
 
 function onError(err) {
-    console.error("Erro de conexão STOMP:", err);
-    alert("Erro ao conectar ao servidor. Veja console.");
+    console.error("STOMP connection gone", err);
+    alert("Connection lost");
 }
 
 async function findConnectedUser() {
@@ -87,17 +87,18 @@ function loadUsers() {
         const div = document.createElement("div");
         div.className = "user";
         div.innerText = user.fullName;
-        div.onclick = () => openChat(user.fullName);
+        div.onclick = () => openChat(user.fullName,user.id);
         list.appendChild(div);
     });
 }
 
 
-function openChat(user) {
-    selectedUser = user;
-    document.getElementById("chatWith").innerText = "Chat com " + user;
+function openChat(userName, userId) {
+    selectedUser = userName;
+    document.getElementById("chatWith").innerText = "Chat with: " + userId;
     document.getElementById("chatBox").innerHTML = "";
     showScreen("chatScreen");
+      loadChat();
 }
 
 function sendMessage() {
@@ -132,4 +133,29 @@ function showScreen(screenId) {
     document.getElementById("chatScreen").classList.add("hidden");
 
     document.getElementById(screenId).classList.remove("hidden");
+}
+
+function loadChat() {
+
+    const messageLogged = [
+        
+    ];
+
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = "";
+
+    messageLogged.forEach(message => {
+
+        const div = document.createElement("div");
+
+        const isMe = message.sender === fullname;
+
+        div.className = isMe ? "message me" : "message";
+
+        div.innerText = message.content;
+
+        chatBox.appendChild(div);
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
