@@ -31,9 +31,7 @@ public class ChatController {
         messageTemplate
                 .convertAndSendToUser(chatMessageRequest.recipientId(), "queue/message",
                         ChatNotification.builder()
-                                .id(chat.getId())
                                 .senderId(chat.getSenderId())
-                                .id(chat.getChatId())
                                 .recipientId(chat.getRecipientId())
                                 .content(chat.getContent())
                                 .build());
