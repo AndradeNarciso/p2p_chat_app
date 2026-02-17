@@ -9,10 +9,7 @@ let fullname = null;
 let onlineUsers = null;
 
 
-
-
 function connection(Event) {
-
 
     nickname = document.getElementById("nickname").value;
     fullname = document.getElementById("fullname").value;
@@ -25,14 +22,11 @@ function connection(Event) {
 
     const socket = new SockJS("/ws");
     stompClient = Stomp.over(socket);
-    stompClient.debug = null    
+    stompClient.debug = null
 
     stompClient.connect({}, onConnected, onError)
 
     Event.preventDefault();
-
-
-
 
 }
 
@@ -54,6 +48,7 @@ function onError(err) {
     alert("Connection lost");
 }
 
+
 async function findConnectedUser() {
     const connectedUser = await fetch('/users');
     let connectUserList = await connectedUser.json();
@@ -67,11 +62,7 @@ async function findConnectedUser() {
 function onMessageReceived(payload) {
 
     const user = JSON.parse(payload.body);
-
-    console.log("User created:", user);
-
     showScreen("usersScreen");
-
     findConnectedUser();
 }
 
@@ -87,7 +78,7 @@ function loadUsers() {
         const div = document.createElement("div");
         div.className = "user";
         div.innerText = user.fullName;
-        div.onclick = () => openChat(user.fullName,user.id);
+        div.onclick = () => openChat(user.fullName, user.id);
         list.appendChild(div);
     });
 }
@@ -95,10 +86,10 @@ function loadUsers() {
 
 function openChat(userName, userId) {
     selectedUser = userName;
-    document.getElementById("chatWith").innerText = "Chat with: " + userId;
+    document.getElementById("chatWith").innerText = "Chat with: " + userName;
     document.getElementById("chatBox").innerHTML = "";
     showScreen("chatScreen");
-      loadChat();
+    loadChat();
 }
 
 function sendMessage() {
@@ -138,7 +129,7 @@ function showScreen(screenId) {
 function loadChat() {
 
     const messageLogged = [
-        
+
     ];
 
     const chatBox = document.getElementById("chatBox");

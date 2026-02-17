@@ -24,11 +24,16 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public User saveUserService(UserRequest userRequest) {
-        User user = User.builder()
-                .fullName(userRequest.fullName())
-                .nickName(userRequest.nickName())
-                .build();
-        return userRepository.save(user);
+
+        return userRepository
+                .findByNickNameAndFullName(userRequest.nickName(), userRequest.fullName()).orElseGet(() -> {
+                    User user = User.builder()
+                            .fullName(userRequest.fullName())
+                            .nickName(userRequest.nickName())
+                            .build();
+                    return userRepository.save(user);
+                });
+
     }
 
     public User disconnectUserService(UserIdRequest user) {
@@ -40,7 +45,7 @@ public class UserService {
             log.info("User already desconnected");
             return savedUser;
         }
-        
+
         savedUser.setStatus(Status.OFFLINE);
         return userRepository.save(savedUser);
 

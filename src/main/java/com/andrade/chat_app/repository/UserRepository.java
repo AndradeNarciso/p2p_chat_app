@@ -12,4 +12,5 @@ import com.andrade.chat_app.enums.Status;
 
 public interface  UserRepository   extends MongoRepository<User,String>{
     Optional<List<User>> findAllByStatus(Status status);
+    Optional<User> findByNickNameAndFullName(String nickName, String fullName);
 }
