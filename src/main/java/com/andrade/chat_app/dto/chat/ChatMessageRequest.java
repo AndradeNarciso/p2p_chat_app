@@ -1,4 +1,4 @@
-package com.andrade.chat_app.dto;
+package com.andrade.chat_app.dto.chat;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -9,10 +9,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.andrade.chat_app.domain.User;
-import com.andrade.chat_app.dto.UserIdRequest;
-import com.andrade.chat_app.dto.UserRequest;
+import com.andrade.chat_app.dto.user.UserIdRequest;
+import com.andrade.chat_app.dto.user.UserRequest;
 import com.andrade.chat_app.service.UserService;
 
 import jakarta.validation.Valid;
@@ -40,6 +42,11 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(userService.findConnectedUser(), HttpStatus.OK);
+    }
+
+    @PostMapping("/id")
+    public ResponseEntity<String> getUserId(@RequestBody UserRequest userRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getIdUserService(userRequest));
     }
 
 }

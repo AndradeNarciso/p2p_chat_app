@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.andrade.chat_app.domain.User;
-import com.andrade.chat_app.dto.UserIdRequest;
-import com.andrade.chat_app.dto.UserRequest;
+import com.andrade.chat_app.dto.user.UserIdRequest;
+import com.andrade.chat_app.dto.user.UserRequest;
 import com.andrade.chat_app.enums.Status;
+import com.andrade.chat_app.exception.NotFoudUserException;
 import com.andrade.chat_app.exception.QueryException;
 import com.andrade.chat_app.repository.UserRepository;
 
@@ -59,6 +60,13 @@ public class UserService {
 
         return connectedUser;
 
+    }
+
+    public String getIdUserService(UserRequest userRequest) {
+        User user = userRepository.findByNickNameAndFullName(userRequest.nickName(), userRequest.fullName())
+                .orElseThrow(() -> new NotFoudUserException("User was not found"));
+
+        return user.getId();
     }
 
 }

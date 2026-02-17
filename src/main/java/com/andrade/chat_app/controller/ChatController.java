@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.andrade.chat_app.domain.ChatMessage;
-import com.andrade.chat_app.dto.ChatMessageRequest;
+import com.andrade.chat_app.dto.chat.ChatMessageRequest;
 import com.andrade.chat_app.service.ChatMessageService;
 import com.andrade.chat_app.util.ChatNotification;
 

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.andrade.chat_app.domain.ChatMessage;
-import com.andrade.chat_app.dto.ChatMessageRequest;
+import com.andrade.chat_app.dto.chat.ChatMessageRequest;
 import com.andrade.chat_app.repository.ChatMessageRepository;
 
 

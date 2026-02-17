@@ -5,6 +5,7 @@ let selectedUser = null;
 let stompClient = null;
 let nickname = null;
 let fullname = null;
+let idUser=null;
 
 let onlineUsers = null;
 
